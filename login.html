@@ -4,47 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录</title>
+    <title>注册</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
-        <h1>登录</h1>
-        <form id="loginForm">
+        <h1>注册</h1>
+        <form id="registerForm">
             <input type="text" placeholder="用户名" id="username" required>
             <input type="password" placeholder="密码" id="password" required>
-            <button type="submit">登录</button>
+            <input type="password" placeholder="确认密码" id="confirmPassword" required>
+            <button type="submit">注册</button>
         </form>
-        <p id="loginMessage"></p>
-        <p>没有账号？<a href="index.html">点击注册</a></p>
+        <p id="registerMessage"></p>
+        <p>已有账号-<a href="index.html">点击登录</a></p>
     </div>
 
     <script src="script.js"></script>
     <script>
-        window.onload = function() {
-            var storedUsername = localStorage.getItem('storedUsername');
-            var storedPassword = localStorage.getItem('storedPassword');
-
-            if (storedUsername && storedPassword) {
-                document.getElementById('username').value = storedUsername;
-                document.getElementById('password').value = storedPassword;
-            }
-        };
-
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
 
-            if (localStorage.getItem(username) === password) {
-                localStorage.setItem('storedUsername', username);
-                localStorage.setItem('storedPassword', password);
-                window.location.href = 'Welcome.html';
+            if (password === confirmPassword) {
+                localStorage.setItem(username, password);
+                document.getElementById('registerMessage').innerHTML = "恭喜注册成功";
+                document.getElementById('registerMessage').style.color = "green";
+                document.getElementById('registerForm').reset();
+                setTimeout(function() {
+                    window.location.href = 'login.html'; // 注册成功后延迟跳转到登录页面
+                }, 5000); // 2秒后跳转
             } else {
-                document.getElementById('loginMessage').innerHTML = "用户名或密码错误，请重新输入！";
-                document.getElementById('loginMessage').style.color = "red";
+                document.getElementById('registerMessage').innerHTML = "账号或者密码错误";
+                document.getElementById('registerMessage').style.color = "red";
             }
         });
     </script>
+</body>
+
+</html>
